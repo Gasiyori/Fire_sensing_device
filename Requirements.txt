@@ -1,0 +1,82 @@
+[라즈베리파이]
+
+- 코드 실행
+	python3 사용. 따라서 코드 실행시 명령어는 "python3 sensing.py"이어야 함
+
+-  Adafruit_DHT, RPi.GPIO, fswebcam, twilio 등의 라이브러리 설치 필요.
+	$sudo pip3 install twilio
+	$sudo pip3 install Adafruit_DHT
+	$sudo apt-get install python-rpi.gpio python3-rpi.gpio
+	$sudo apt-get install motion
+	$sudo apt-get install ufw
+
+모듈을 찾을 수 없다고 뜨면
+1. pip3라 아니라 pip로 명령어를 바꿔서 진행
+2. apt-get 명령어 시도
+3. 구글링
+
+RPI 환경이 까다로워서 해당 환경에서 먹힌다고 장담하질 못하겠네요.
+써 드린 부분이 100% 동작하지 않을 수 있으니 구글링이 필요할 수도 있습니다.
+
+- 문자 수신을 위한 twillio 가입
+	다음 링크를 참고해주세요.
+	https://thinkingfactory.tistory.com/989
+	
+	survey까지 진행해야 문자 전송에 사용 가능한 크레딧을 줌
+
+- motion 설정
+	해당 링크를 참고해주세요.
+	https://blog.naver.com/rhrkdfus/221402019076
+	https://1d1cblog.tistory.com/18
+
+- 라즈베리파이 방화벽 설정
+	위에서 ufw를 설치하였다면, 
+	
+	$sudo ufw enable
+	$sudo ufw disable
+	$sudo ufw default deny
+	$sudo ufw allow 8081
+
+	이와같은 과정으로 8081 포트를 열어줄 수 있음.
+
+- 라즈베리파이 IP 고정
+(필수 사항은 아니지만 IP주소가 바뀌면 앱을 계속 다시 설정해줘야 함)
+	유선, 무선 연결에 따라 조금씩 다를 수 있으므로 다음 링크를 참고해주세요.
+	https://ansan-survivor.tistory.com/44
+
+- 공유기 포트포워딩
+	외부 포트는 54321 (임의로 변경 가능)
+	IP 주소는 라즈베리파이의 IP주소
+	내부 포트는 8081
+	프로토콜은 둘 다 사용
+
+- 선택 사항
+	라즈베리파이 모니터 사용시 전력 문제가 발생할 수 있으므로 고속 충전 충전기 사용을 권장합니다.
+
+- 코드 수정
+
+주석에도 따로 설명해두었습니다. <1>, <2> 등으로 검색하시면 해당 줄로 이동 가능합니다.
+
+<1> 온도 경계값.
+	테스트에서는 25도로 설정하여 테스트 하였습습니다.
+	해당 환경에 맞는 적절한 경계값을 설정하시면 됩니다.
+
+<2><3> twillio에 가입하고 거기서 얻은 정보를 기입해야 합니다.
+	앞서 언급된 링크를 참고바랍니다.
+
+
+
+[앱]
+
+안드로이드 기반의 휴대폰에 설치해야하고, 외부 인터넷이냐 내부 인터넷이냐에 따라 IP 주소를 바꾸셔야 합니다.
+39, 41줄에서 둘 중 하나만 활성화하시면 됩니다.
+
+a. 내부 IP인 경우
+	라즈베리파이 ip주소와 8081 포트를 입력하여 apk 생성
+	ex) 192.168.0.100:8081
+
+b. 외부 IP인 경우
+	공유기의 글로벌 ip 주소와 포트포워딩에 사용된 포트를 입력하여 apk 생성
+	ex) 1.228.170.57:54321
+
+조금 까다로울 수 있으므로 apk생성이나 기타 상황에서 문제 발생 시 도움 드리겠습니다.
